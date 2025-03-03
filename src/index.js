@@ -103,7 +103,6 @@ function Menu() {
 
 // we can call object directly on function with "{}" without using "props"
 function Pizza({ pizzaObj }) {
-
   return (
     <li className={`pizza ${pizzaObj.soldOut ? 'sold-out' : ''}`}>
       <img src={pizzaObj.photoName} alt={pizzaObj.name} />
