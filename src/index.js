@@ -74,12 +74,21 @@ function Menu() {
     <main className="menu">
       <h2>Our Menu</h2>
 
-      {dataLength > 0 && (
-        <ul className="pizzas">
-          {pizzaData.map((pizzaData) => (
-            <Pizza pizzaObj={pizzaData} key={pizzaData.name} />
-          ))}
-        </ul>
+      {dataLength > 0 ? (
+        // react fragment <></> / <React.fragement> </React.fragement> is used to group two element without damaging the structure in frontend
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven, all organic, all delicious.
+          </p>
+          <ul className="pizzas">
+            {pizzaData.map((pizzaData) => (
+              <Pizza pizzaObj={pizzaData} key={pizzaData.name} />
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p>We'are still working on our menu. Please come back later :)</p>
       )}
 
       {/* <Pizza
@@ -92,35 +101,62 @@ function Menu() {
   );
 }
 
-function Pizza(props) {
+// we can call object directly on function with "{}" without using "props"
+function Pizza({ pizzaObj }) {
+
   return (
-    <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+    <li className={`pizza ${pizzaObj.soldOut ? 'sold-out' : ''}`}>
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
-        <h3>{props.pizzaObj.name}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <p>{props.pizzaObj.price}</p>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>{pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price}</span>
       </div>
     </li>
   );
 }
 
+// function Pizza(props) {
+//   return (
+//     <li className="pizza">
+//       <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+//       <div>
+//         <h3>{props.pizzaObj.name}</h3>
+//         <p>{props.pizzaObj.ingredients}</p>
+//         <p>{props.pizzaObj.price}</p>
+//       </div>
+//     </li>
+//   );
+// }
+
 function Footer() {
   const hour = new Date().getHours();
-  const openHour = 11;
+  const openHour = 12;
   const closeHour = 22;
   const isOpen = hour >= openHour && hour <= closeHour;
+  console.log(hour);
   console.log(isOpen);
 
   return (
     <footer className="footer">
-      {/* On JSX boolean will not print into html */}
-      {isOpen && (
+      {isOpen ? (
         <div className="order">
           <p>We're open until {closeHour}:00. Come visit us or order online.</p>
           <button className="btn">Order Now</button>
         </div>
+      ) : (
+        <p>
+          We'are happy to welcome you between {openHour}:00 - {closeHour}:00.
+        </p>
       )}
+
+      {/* On JSX boolean will not print into html */}
+      {/* {isOpen && (
+        <div className="order">
+          <p>We're open until {closeHour}:00. Come visit us or order online.</p>
+          <button className="btn">Order Now</button>
+        </div>
+      )} */}
       {/* {new Date().toLocaleString()}. We're currently open */}
     </footer>
   );
